@@ -33,24 +33,24 @@ class Mediant {
 }
 
 /// A Stern-Brocot tree generates all positive rational numbers.
-/// The algorithm will perform `2^N` mediant operations where [levels] is `N`.
+/// The algorithm will perform `2^N-1` mediant operations where [order] is `N`.
 /// The results will be a flat [List] of [Mediant] results.
-List<Mediant> algo({required int levels}) {
+List<Mediant> algo({required int order}) {
   final zero = Mediant.zero();
   final inf = Mediant.inf();
 
-  return [zero, ..._sternBrocotImpl(zero, inf, levels), inf];
+  return [zero, ..._sternBrocotImpl(zero, inf, order), inf];
 }
 
 /// The recursive descent implementation for the Stern-Brocot algorithm.
-List<Mediant> _sternBrocotImpl(Mediant l, Mediant r, int levels) {
+List<Mediant> _sternBrocotImpl(Mediant l, Mediant r, int order) {
   final m = l + r;
 
-  if (levels <= 0) return [m];
+  if (order <= 0) return [];
 
   return [
-    ..._sternBrocotImpl(l, m, levels - 1),
+    ..._sternBrocotImpl(l, m, order - 1),
     m,
-    ..._sternBrocotImpl(m, r, levels - 1),
+    ..._sternBrocotImpl(m, r, order - 1),
   ];
 }
